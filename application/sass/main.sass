@@ -1,0 +1,267 @@
+@import base
+@import reset
+@import keyframes
+
+.spinner
+	position: absolute
+	z-index: 3
+	width: 42px
+	height: 42px
+	margin-top: -21px
+	margin-left: -21px
+	top: 50%
+	left: 50%
+	background-image: url(../images/spinner-white.png)
+
+=picture
+	border: 1px solid darken($pageColor, 50%)
+	padding: 0.25em
+	+box-sizing(border-box)
+
+body
+	background-color: hsl(23, 62%, 28%)
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+	
+	> header
+		background: hsl(20, 20%, 12%)
+		+box-shadow(0 1px 2px hsla(0, 0, 100, 0.2))
+		text-align: center
+		
+		h1
+			color: darken(desaturate($gold, 40), 20)
+			font: 100%/44px Oswald, sans-serif
+			text-transform: uppercase
+	
+#viewport
+	width: 320px
+	overflow: hidden
+	margin: auto
+	
+	&.fadeInDown
+		+animation(fadeInDown 1s ease both)
+		+animation-play-state(paused)
+		
+		&.animated
+			+animation-play-state(running)
+		
+#book
+	$pageWidth: 310px
+	$pageShadow: 0 0 5px hsla(0, 0, 0, 0.5)
+	$pagePadding: 30px 30px 42px
+	$flipDuration: 2.5s
+	
+	min-height: 300px
+	width: 2 * $pageWidth
+	font: 120%/1.5 "Times New Roman", serif
+	color: $textColor
+	position: relative
+	margin: 7px 0
+	+transition(margin ($flipDuration / 2) ease)
+
+	&.right
+		margin-left: -300px
+	
+	&.flip
+		+transition-delay($flipDuration * 0.5)
+		+transition-duration($flipDuration * 0.4)
+	
+	div[data-page]
+		width: $pageWidth
+		position: absolute
+		height: 100%
+		+animation-duration($flipDuration)
+		+animation-fill-mode(both)
+		font-size: 0.8em
+		
+		&.hidden
+			visibility: hidden
+		
+		&.flipOut
+			+animation-timing-function(ease-in)
+			z-index: 100 !important
+		
+		&.flipIn
+			+animation-timing-function(ease-out)
+			z-index: 100 !important
+		
+		&.dummyText
+		
+			&:before
+				background-image: url(../images/dummy-text.png)
+				+position(absolute, 0, 0, 0, 0)
+				margin: $pagePadding
+				content: ""
+		
+		// All pages except for the cover
+		&:not(:first-child)
+			background: $pageColor url(../images/noise.png)
+			padding: $pagePadding
+			+box-sizing(border-box)
+			+box-shadow(inset 0 1px hsla(0, 0, 100%, 0.5), inset 0 0 35px darken($pageColor, 65%), $pageShadow)
+			
+			&:nth-child(odd)
+				left: $pageWidth
+		
+			&:after
+				font-size: 0.75em
+				position: absolute
+				bottom: 15px
+				+lightText
+				content: attr(data-page)
+		
+		&:nth-child(odd)
+			+border-radius(0 30px 30px 0)
+			+transform-origin(0%, 0%)
+			
+			&:after
+				left: 30px
+			
+			&.flipOut
+				+animation-name(flipOut)
+			
+			&.flipIn
+				+animation-name(flipInBackwards)
+		
+		&:nth-child(even)
+			+border-radius(30px 0 0 30px)
+			+transform-origin(100%, 0%)
+			
+			&:after
+				right: 30px
+			
+			&.flipOut
+				+animation-name(flipOutBackwards)
+			
+			&.flipIn
+				+animation-name(flipIn)
+		
+		// Front page/cover
+		&:first-child
+			$coverColor: hsl(20, 10%, 14%)
+			
+			+box-shadow(inset 0 1px hsla(0, 0, 10%, 0.5), inset 0 0 35px darken($coverColor, 7%), $pageShadow)
+			background: $coverColor url(../images/cover.png)
+			width: $pageWidth
+			border-left: 10px solid black
+			left: $pageWidth - 10
+		
+		&:nth-child(2)
+			+capitalise
+			
+			#login
+				color: white
+				font: 600 .65em/1 "lucida grande", tahoma, verdana, arial, sans-serif
+				background: hsl(222, 32%, 60%) url(../images/fb-login-button.png) no-repeat
+				padding: 8px 8px 8px 38px
+				border: 1px solid hsl(221, 51%, 33%)
+				+box-shadow(inset 0 1px hsla(0, 0%, 100%, 0.3), 0 0 8px hsla(0, 0%, 0%, 0.5))
+				width: 100%
+				font-size: 0.8em
+				+border-radius(0)
+				
+				&:hover
+					background:
+						color: hsl(222, 32%, 50%)
+						position: 0 -29px
+		
+		&:nth-child(3)
+			+capitalise
+			
+			canvas
+				margin-bottom: 1em
+				border: 1px solid darken($pageColor, 50%)
+				background-color: white
+				+box-shadow(inset 0 0 5px hsla(0, 0%, 0%, 0.2), 0 0 8px hsla(0, 0%, 0%, 0.2))
+				
+			button.next
+				float: right
+		
+		&:nth-child(4)
+			header, img
+				margin-bottom: 1em
+			header
+				+clearfix
+				
+				img
+					width: 25%
+					+picture
+					float: right
+					margin-left: 1em
+				
+				h1
+					text-transform: uppercase
+					font:
+						family: Oswald, sans-serif
+						size: 1.2em
+				
+				h2
+					font-size: 100%
+				
+				span
+					+lightText
+			
+			img
+				display: block
+				width: 75px
+			
+			button#post
+				float: right
+		
+		&:nth-child(5)
+			ul
+				list-style: none
+				display: block
+				font-size: 1em
+				+clearfix
+
+			li
+				float: left
+				margin: 0 10px 10px 0
+				width: 55px
+				display: none
+
+				&:nth-child(-n+8)
+					display: block
+				
+				&:nth-child(4n+4)
+					margin-right: 0
+			
+			a
+				&:hover
+					img
+						background: black
+					
+					h1
+						text-decoration: underline
+			
+			img
+				width: 100%
+				+picture
+			
+			h1
+				font-size: 0.8em
+				text-align: center
+				font-weight: normal
+				overflow: hidden
+				text-overflow: ellipsis
+				white-space: nowrap
+			
+			button.next
+				float: right
+		
+		p
+			text-align: justify
+		
+		p, hr, button
+			margin-bottom: 1em
+		
+		button:not(#login)
+			background: transparentize(darken($pageColor, 50%), 0.7)
+			color: darken($textColor, 20%)
+			font-size: 1em
+			padding: 0.2em 0.7em
+			+border-radius(1.5em)
+			
+			&:hover
+				background: darken($textColor, 20%)
+				color: $pageColor

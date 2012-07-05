@@ -1,0 +1,50 @@
+@import url(http://fonts.googleapis.com/css?family=Oswald)
+@import compass/css3
+@import compass/utilities/general/clearfix
+
+$gold: hsl(40, 100, 70)
+$pageColor: hsl(55, 16%, 100%)
+$textColor: darken($pageColor, 70%)
+
+=position($position, $top: auto, $right: auto, $bottom: auto, $left: auto)
+	position: $position
+	top: $top
+	right: $right
+	bottom: $bottom
+	left: $left
+
+=capitalise
+	p:first-letter
+		font-size: 3em
+		float: left
+		line-height: 1
+		margin:
+			right: 7px
+			bottom: -2px
+
+=animation($animation)
+	-webkit-animation: $animation
+	-moz-animation: $animation
+
+=animation-name($name)
+	-webkit-animation-name: $name
+	-moz-animation-name: $name
+
+=animation-duration($duration)
+	-webkit-animation-duration: $duration
+	-moz-animation-duration: $duration
+
+=animation-fill-mode($direction)
+	-webkit-animation-fill-mode: $direction
+	-moz-animation-fill-mode: $direction
+
+=animation-timing-function($timing)
+	-webkit-animation-timing-function: $timing
+	-moz-animation-timing-function: $timing
+
+=animation-play-state($play)
+	-webkit-animation-play-state: $play
+	-moz-animation-play-state: $play
+
+=lightText
+	color: transparentize($textColor, 0.5)
